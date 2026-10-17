@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireFlow | Recruitment Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script>
+        if (sessionStorage.getItem("hireflow-demo-login") !== "true") {
+            window.location.replace("login.html");
+        }
+    </script>
+</head>
+<body>
+    <aside class="sidebar">
+        <a class="brand" href="#dashboard">
+            <span class="brand-icon">H</span>
+            HireFlow
+        </a>
+
+        <p class="nav-label">WORKSPACE</p>
+
+        <nav>
+            <a class="nav-link active" href="#dashboard">▦ Dashboard</a>
+            <a class="nav-link" href="#candidates">♙ Candidates</a>
+            <a class="nav-link" href="#pipeline">⇢ Hiring Pipeline</a>
+            <a class="nav-link" href="#jobs">▤ Job Openings</a>
+            <a class="nav-link" href="#add-candidate">＋ Add Candidate</a>
+        </nav>
+
+        <div class="profile">
+            <div class="avatar" id="profile-avatar">AS</div>
+            <div>
+                <strong id="profile-name">Alex Smith</strong>
+                <small>Recruitment Manager</small>
+            </div>
+            <button id="theme-toggle" class="icon-button" type="button">☾</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar" id="dashboard">
+            <div>
+                <p class="eyebrow">WORKSPACE / OVERVIEW</p>
+                <h1>Recruitment Dashboard</h1>
+                <p class="muted">Manage your candidates and hiring process.</p>
+            </div>
+
+            <div class="top-actions">
+                <input
+                    id="global-search"
+                    type="search"
+                    placeholder="Search candidates..."
+                    aria-label="Search candidates"
+                >
+                <a href="#add-candidate" class="button primary">+ Add Candidate</a>
+                <button type="button" id="logout-button" class="button secondary">
+                    Log out
+                </button>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <div>
+                <p class="eyebrow light">YOUR HIRING AT A GLANCE</p>
+                <h2>Welcome back, <span id="welcome-name">Alex</span>! ✨</h2>
+                <p>Find great talent and build your dream team with HireFlow.</p>
+            </div>
+            <div class="welcome-art">✦</div>
+        </section>
+
+        <section class="stats-grid" aria-label="Recruitment statistics">
+            <article class="stat-card">
+                <div class="stat-icon purple">♙</div>
+                <p>Total Candidates</p>
+                <h2 id="stat-total">0</h2>
+                <small>All applicants</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon blue">▤</div>
+                <p>Open Positions</p>
+                <h2 id="stat-jobs">3</h2>
+                <small>Available jobs</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon orange">◷</div>
+                <p>Interviews</p>
+                <h2 id="stat-interviews">0</h2>
+                <small>In interview stage</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon green">✓</div>
+                <p>Hired Candidates</p>
+                <h2 id="stat-hired">0</h2>
+                <small>Successful hires</small>
+            </article>
+        </section>
+
+        <section class="panel" id="pipeline">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">HIRING OVERVIEW</p>
+                    <h2>Hiring Pipeline</h2>
+                    <p class="muted">Track candidates through each stage.</p>
+                </div>
+            </div>
+
+            <div class="pipeline-grid">
+                <article class="pipeline-card">
+                    <span class="dot applied"></span>
+                    <p>Applied</p>
+                    <h3 id="count-applied">0</h3>
+                    <small>candidates</small>
+                </article>
+
+                <article class="pipeline-card">
+                    <span class="dot shortlisted"></span>
+                    <p>Shortlisted</p>
+                    <h3 id="count-shortlisted">0</h3>
+                    <small>candidates</small>
+                </article>
+
+                <article class="pipeline-card">
+                    <span class="dot interview"></span>
+                    <p>Interview</p>
+                    <h3 id="count-interview">0</h3>
+                    <small>candidates</small>
+                </article>
+
+                <article class="pipeline-card">
+                    <span class="dot hired"></span>
+                    <p>Hired</p>
+                    <h3 id="count-hired">0</h3>
+                    <small>candidates</small>
+                </article>
+
+                <article class="pipeline-card">
+                    <span class="dot rejected"></span>
+                    <p>Rejected</p>
+                    <h3 id="count-rejected">0</h3>
+                    <small>candidates</small>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="candidates">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TALENT DIRECTORY</p>
+                    <h2>Recent Candidates</h2>
+                    <p class="muted">Search and manage applicants.</p>
+                </div>
+                <span id="record-count" class="record-count">0 candidates</span>
+            </div>
+
+            <div class="table-toolbar">
+                <input
+                    id="table-search"
+                    type="search"
+                    placeholder="Search name, email, role, or skill..."
+                    aria-label="Search candidate table"
+                >
+
+                <select id="status-filter" aria-label="Filter by status">
+                    <option value="all">All statuses</option>
+                    <option value="applied">Applied</option>
+                    <option value="shortlisted">Shortlisted</option>
+                    <option value="interview">Interview</option>
+                    <option value="hired">Hired</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Candidate</th>
+                            <th>Applied For</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="candidate-table-body"></tbody>
+                </table>
+            </div>
+
+            <p class="table-note">Demo project · Data is stored in this browser.</p>
+        </section>
+
+        <section class="panel" id="jobs">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CAREER OPPORTUNITIES</p>
+                    <h2>Open Job Positions</h2>
+                    <p class="muted">Explore the roles available in your workspace.</p>
+                </div>
+            </div>
+
+            <div class="jobs-grid">
+                <article class="job-card">
+                    <div class="job-icon purple">⌘</div>
+                    <span class="job-type">FULL-TIME</span>
+                    <h3>Frontend Developer</h3>
+                    <p class="muted">FirstLabs Technologies</p>
+                    <p class="job-meta">📍 Mumbai, India</p>
+                    <div class="skills">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                    </div>
+                </article>
+
+                <article class="job-card">
+                    <div class="job-icon blue">〈〉</div>
+                    <span class="job-type">FULL-TIME</span>
+                    <h3>Backend Developer</h3>
+                    <p class="muted">FirstLabs Technologies</p>
+                    <p class="job-meta">📍 Remote, India</p>
+                    <div class="skills">
+                        <span>Python</span>
+                        <span>APIs</span>
+                        <span>SQL</span>
+                    </div>
+                </article>
+
+                <article class="job-card">
+                    <div class="job-icon orange">✳</div>
+                    <span class="job-type internship">INTERNSHIP</span>
+                    <h3>UI/UX Designer</h3>
+                    <p class="muted">FirstLabs Technologies</p>
+                    <p class="job-meta">📍 Mumbai, India</p>
+                    <div class="skills">
+                        <span>Figma</span>
+                        <span>UI Design</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="add-candidate">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">TALENT MANAGEMENT</p>
+                    <h2 id="form-title">Add a Candidate</h2>
+                    <p class="muted">Fields marked * are required.</p>
+                </div>
+            </div>
+
+            <form id="candidate-form">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="candidate-name">Full Name *</label>
+                        <input
+                            id="candidate-name"
+                            name="name"
+                            type="text"
+                            placeholder="e.g. Riya Patel"
+                            maxlength="80"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="candidate-email">Email Address *</label>
+                        <input
+                            id="candidate-email"
+                            name="email"
+                            type="email"
+                            placeholder="name@example.com"
+                            maxlength="120"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="candidate-role">Applied Role *</label>
+                        <select id="candidate-role" name="role" required>
+                            <option value="">Select a role</option>
+                            <option>Frontend Developer</option>
+                            <option>Backend Developer</option>
+                            <option>UI/UX Designer</option>
+                            <option>Data Analyst</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="candidate-status">Application Status *</label>
+                        <select id="candidate-status" name="status" required>
+                            <option value="applied">Applied</option>
+                            <option value="shortlisted">Shortlisted</option>
+                            <option value="interview">Interview</option>
+                            <option value="hired">Hired</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field full-width">
+                        <label for="candidate-skills">Skills (optional)</label>
+                        <input
+                            id="candidate-skills"
+                            name="skills"
+                            type="text"
+                            placeholder="e.g. HTML, CSS, JavaScript"
+                        >
+                    </div>
+
+                    <div class="form-field full-width">
+                        <label for="candidate-resume">Upload Resume (PDF, optional)</label>
+                        <input
+                            id="candidate-resume"
+                            name="resume"
+                            type="file"
+                            accept=".pdf,application/pdf"
+                        >
+                        <small id="resume-name">No resume selected</small>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="button secondary" type="reset" id="reset-form">
+                        Clear Form
+                    </button>
+                    <button class="button primary" type="submit" id="submit-button">
+                        + Add Candidate
+                    </button>
+                    <button class="button quiet" type="button" id="cancel-edit" hidden>
+                        Cancel Edit
+                    </button>
+                </div>
+
+                <p
+                    id="form-message"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <span>© 2026 HireFlow · Frontend Portfolio Project</span>
+            <span>Recruit smarter. Hire better.</span>
+        </footer>
+    </main>
+</body>
+</html>

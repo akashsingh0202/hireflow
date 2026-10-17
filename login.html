@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireFlow | Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+    <main class="auth-container">
+        <section class="auth-visual">
+            <a href="login.html" class="brand auth-brand">
+                <span class="brand-icon">H</span>
+                HireFlow
+            </a>
+
+            <div class="auth-visual-content">
+                <span class="eyebrow light">YOUR TALENT. YOUR FUTURE.</span>
+                <h1>Great teams start with great people.</h1>
+                <p>
+                    Manage candidates, streamline hiring, and find the right
+                    talent with your all-in-one recruitment workspace.
+                </p>
+
+                <div class="auth-feature">
+                    <span class="feature-check">✓</span>
+                    <div>
+                        <strong>One organized workspace</strong>
+                        <p>Keep candidate information in one place.</p>
+                    </div>
+                </div>
+
+                <div class="auth-feature">
+                    <span class="feature-check">✓</span>
+                    <div>
+                        <strong>Clear hiring pipeline</strong>
+                        <p>Track applications from start to finish.</p>
+                    </div>
+                </div>
+
+                <div class="auth-feature">
+                    <span class="feature-check">✓</span>
+                    <div>
+                        <strong>Simple candidate management</strong>
+                        <p>Spend less time organizing and more time hiring.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="auth-visual-footer">
+                © 2026 HireFlow. Built for better hiring.
+            </p>
+        </section>
+
+        <section class="auth-form-section">
+            <div class="auth-form-wrapper">
+                <a href="login.html" class="brand mobile-brand">
+                    <span class="brand-icon">H</span>
+                    HireFlow
+                </a>
+
+                <div class="auth-heading">
+                    <span class="eyebrow">WELCOME BACK</span>
+                    <h2>Sign in to your account</h2>
+                    <p>Enter your details to access your dashboard.</p>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-field">
+                        <label for="login-email">Email Address</label>
+                        <input
+                            type="email"
+                            id="login-email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <div class="label-row">
+                            <label for="login-password">Password</label>
+                            <span class="helper-text">Demo account available</span>
+                        </div>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="login-password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <button
+                                type="button"
+                                id="toggle-password"
+                                class="password-toggle"
+                                aria-label="Show password"
+                            >Show</button>
+                        </div>
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="remember-label">
+                            <input type="checkbox" id="remember-me">
+                            <span>Remember me on this device</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="button primary auth-submit">
+                        Sign In <span aria-hidden="true">→</span>
+                    </button>
+
+                    <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+                </form>
+
+                <div class="demo-box">
+                    <div class="demo-box-heading">
+                        <span class="demo-icon">✦</span>
+                        <strong>Try the demo account</strong>
+                    </div>
+
+                    <p>Email: <strong>admin@hireflow.com</strong></p>
+                    <p>Password: <strong>Admin123</strong></p>
+
+                    <button type="button" id="fill-demo" class="button secondary demo-button">
+                        Use Demo Credentials
+                    </button>
+                </div>
+
+                <p class="auth-switch">
+                    Don't have an account?
+                    <a href="signup.html">Create account</a>
+                </p>
+
+                <p class="auth-terms">
+                    By signing in, you agree to use this demo application responsibly.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const loginForm = document.getElementById("login-form");
+        const emailInput = document.getElementById("login-email");
+        const passwordInput = document.getElementById("login-password");
+        const message = document.getElementById("login-message");
+        const togglePassword = document.getElementById("toggle-password");
+        const fillDemo = document.getElementById("fill-demo");
+
+        fillDemo.addEventListener("click", function () {
+            emailInput.value = "admin@hireflow.com";
+            passwordInput.value = "Admin123";
+            message.textContent = "";
+            passwordInput.focus();
+        });
+
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            togglePassword.textContent = isPassword ? "Hide" : "Show";
+            togglePassword.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+        });
+
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+
+            let currentUser = null;
+
+            try {
+                const users = JSON.parse(
+                    localStorage.getItem("hireflow-demo-users") || "[]"
+                );
+
+                currentUser = users.find(function (user) {
+                    return user.email.toLowerCase() === email &&
+                           user.password === password;
+                }) || null;
+            } catch (error) {
+                message.textContent = "Unable to read saved accounts. Please try again.";
+                return;
+            }
+
+            if (
+                email === "admin@hireflow.com" &&
+                password === "Admin123"
+            ) {
+                currentUser = {
+                    name: "Admin",
+                    email: "admin@hireflow.com"
+                };
+            }
+
+            if (!currentUser) {
+                message.textContent =
+                    "Invalid email or password. Check your details or create an account.";
+                return;
+            }
+
+            const userForSession = {
+                name: currentUser.name || "User",
+                email: currentUser.email
+            };
+
+            sessionStorage.setItem("hireflow-demo-login", "true");
+            sessionStorage.setItem(
+                "hireflow-current-user",
+                JSON.stringify(userForSession)
+            );
+
+            window.location.href = "index.html";
+        });
+    </script>
+
+</body>
+</html>

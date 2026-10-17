@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireFlow | Create Account</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+    <main class="auth-container">
+        <section class="auth-visual">
+            <a href="login.html" class="brand auth-brand">
+                <span class="brand-icon">H</span>
+                HireFlow
+            </a>
+
+            <div class="auth-visual-content">
+                <span class="eyebrow light">BUILD YOUR TEAM</span>
+                <h1>Find the right people. Build something great.</h1>
+                <p>
+                    Create your account and start managing your recruitment
+                    workflow in one organized workspace.
+                </p>
+
+                <div class="auth-feature">
+                    <span class="feature-check">✓</span>
+                    <div>
+                        <strong>Organize candidates</strong>
+                        <p>Keep applicant details together in one place.</p>
+                    </div>
+                </div>
+
+                <div class="auth-feature">
+                    <span class="feature-check">✓</span>
+                    <div>
+                        <strong>Track every application</strong>
+                        <p>Know where each candidate stands.</p>
+                    </div>
+                </div>
+
+                <div class="auth-feature">
+                    <span class="feature-check">✓</span>
+                    <div>
+                        <strong>Make hiring simpler</strong>
+                        <p>Manage your recruitment process with ease.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="auth-visual-footer">
+                © 2026 HireFlow. Built for better hiring.
+            </p>
+        </section>
+
+        <section class="auth-form-section">
+            <div class="auth-form-wrapper">
+                <a href="login.html" class="brand mobile-brand">
+                    <span class="brand-icon">H</span>
+                    HireFlow
+                </a>
+
+                <div class="auth-heading">
+                    <span class="eyebrow">GET STARTED</span>
+                    <h2>Create your account</h2>
+                    <p>Enter your details to join HireFlow.</p>
+                </div>
+
+                <form id="signup-form">
+                    <div class="form-field">
+                        <label for="signup-name">Full Name</label>
+                        <input
+                            type="text"
+                            id="signup-name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            minlength="2"
+                            maxlength="80"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="signup-email">Email Address</label>
+                        <input
+                            type="email"
+                            id="signup-email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            maxlength="120"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-field">
+                        <label for="signup-password">Password</label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="signup-password"
+                                name="password"
+                                placeholder="Create a password"
+                                autocomplete="new-password"
+                                minlength="8"
+                                maxlength="128"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="toggle-password"
+                                aria-label="Show password"
+                            >Show</button>
+                        </div>
+
+                        <small class="field-hint">
+                            Use at least 8 characters.
+                        </small>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="signup-confirm-password">
+                            Confirm Password
+                        </label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="signup-confirm-password"
+                                name="confirm-password"
+                                placeholder="Enter password again"
+                                autocomplete="new-password"
+                                minlength="8"
+                                maxlength="128"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="toggle-confirm-password"
+                                aria-label="Show confirmation password"
+                            >Show</button>
+                        </div>
+                    </div>
+
+                    <label class="remember-label terms-checkbox">
+                        <input type="checkbox" id="accept-terms" required>
+                        <span>I agree to the demo application's terms of use.</span>
+                    </label>
+
+                    <button type="submit" class="button primary auth-submit">
+                        Create Account <span aria-hidden="true">→</span>
+                    </button>
+
+                    <p
+                        id="signup-message"
+                        class="form-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
+
+                <p class="auth-switch">
+                    Already have an account?
+                    <a href="login.html">Sign in</a>
+                </p>
+
+                <p class="auth-terms">
+                    This portfolio demo stores account details in your browser.
+                    Do not use a real password.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const signupForm = document.getElementById("signup-form");
+        const nameInput = document.getElementById("signup-name");
+        const emailInput = document.getElementById("signup-email");
+        const passwordInput = document.getElementById("signup-password");
+        const confirmPasswordInput = document.getElementById(
+            "signup-confirm-password"
+        );
+        const message = document.getElementById("signup-message");
+
+        function showSignupMessage(text, type = "error") {
+            message.textContent = text;
+            message.className = "form-message " + type;
+        }
+
+        function setupPasswordToggle(input, button) {
+            button.addEventListener("click", function () {
+                const shouldShow = input.type === "password";
+
+                input.type = shouldShow ? "text" : "password";
+                button.textContent = shouldShow ? "Hide" : "Show";
+
+                button.setAttribute(
+                    "aria-label",
+                    shouldShow ? "Hide password" : "Show password"
+                );
+            });
+        }
+
+        setupPasswordToggle(
+            passwordInput,
+            document.getElementById("toggle-password")
+        );
+
+        setupPasswordToggle(
+            confirmPasswordInput,
+            document.getElementById("toggle-confirm-password")
+        );
+
+        signupForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (name.length < 2) {
+                showSignupMessage("Please enter your full name.");
+                nameInput.focus();
+                return;
+            }
+
+            if (password.length < 8) {
+                showSignupMessage(
+                    "Password must contain at least 8 characters."
+                );
+                passwordInput.focus();
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showSignupMessage("The passwords do not match.");
+                confirmPasswordInput.focus();
+                return;
+            }
+
+            let users = [];
+
+            try {
+                users = JSON.parse(
+                    localStorage.getItem("hireflow-demo-users") || "[]"
+                );
+
+                if (!Array.isArray(users)) {
+                    users = [];
+                }
+            } catch (error) {
+                showSignupMessage(
+                    "Could not read saved accounts. Please try again."
+                );
+                return;
+            }
+
+            const existingUser = users.some(function (user) {
+                return user.email.toLowerCase() === email;
+            });
+
+            if (existingUser || email === "admin@hireflow.com") {
+                showSignupMessage(
+                    "This email is already registered. Please sign in."
+                );
+                return;
+            }
+
+            const newUser = {
+                name: name,
+                email: email,
+                password: password
+            };
+
+            users.push(newUser);
+
+            try {
+                localStorage.setItem(
+                    "hireflow-demo-users",
+                    JSON.stringify(users)
+                );
+            } catch (error) {
+                showSignupMessage(
+                    "Unable to save your account. Browser storage may be full."
+                );
+                return;
+            }
+
+            showSignupMessage(
+                "Account created successfully! Redirecting to sign in...",
+                "success"
+            );
+
+            signupForm.querySelector('button[type="submit"]').disabled = true;
+
+            setTimeout(function () {
+                window.location.href = "login.html";
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>
